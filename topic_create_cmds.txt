@@ -1,0 +1,30 @@
+bin\windows\kafka-topics.bat --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic test1
+bin\windows\kafka-topics.bat --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic dest1
+
+bin\windows\kafka-console-consumer.bat --bootstrap-server localhost:9092 --topic dest1
+
+kafka-topics.bat --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic pxljson
+
+
+bin\windows\zookeeper-server-start.bat config\zookeeper.properties
+bin\windows\kafka-server-start.bat config\server.properties
+
+
+bin\windows\zookeeper-server-start.bat config\zookeeper.properties
+bin\windows\kafka-server-start.bat config\server.properties
+
+Start MQTT broker using command 'net start mosquitto'.
+
+pip3 install paho-mqtt
+
+--conf spark.jars.ivy=/tmp/.ivy
+--conf spark.local.dir=/C:/tmp99
+
+spark-submit --conf spark.jars.ivy=/C:/.ivy --packages org.apache.spark:spark-sql-kafka-0-10_2.11:2.4.8 spark_kafka.py >> demo1313.txt
+
+
+spark-submit --jars spark-streaming-kafka-0-8-assembly_2.11-2.4.4.jar spark_kafka_dstreams.py >> spark_window_demo.logs
+
+bin\windows\kafka-topics.bat --zookeeper localhost:2181 --list
+
+set SPARK_LOCAL_DIRS=C:\tmp99

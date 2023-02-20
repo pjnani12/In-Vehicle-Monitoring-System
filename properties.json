@@ -1,0 +1,8 @@
+{
+ "MQTT_broker":"localhost",
+ "MQTT_port":1883,
+ "MQTT_topic":"test",
+ "Kafka_brokers":"localhost:9092", 
+ "Kafka_source_topic":"test1",
+ "Kafka_destination_topic1":"dest1"
+}

@@ -1,0 +1,47 @@
+while running spark set the paths
+---------------------------------
+set PATH=%PYSPARK_PYTHON%;%PATH%
+set PATH=%SPARK_HOME%\bin;%PATH%
+set PATH=%HADOOP_HOME%\bin;%PATH%
+set PATH=%JAVA_HOME%\bin;%PATH%
+set PYSPARK_DRIVER_PYTHON=python
+set PATH=C:\apache-maven-3.8.2\bin;%PATH%
+set TMP=C:/tmp99
+
+
+MQTT start [cmd with admin permissions] -- data ingestion tier 
+--------------------------------------
+net start mosquitto
+
+
+Kafka, Zookeper ["Go to Kafka directory where kafka is installed"]   -- Data Flow tier
+--------------------------------------
+bin\windows\zookeeper-server-start.bat config\zookeeper.properties
+bin\windows\kafka-server-start.bat config\server.properties
+
+Note: create source topic and dest topic in kafka  -- Data Store tier // processed data will be saved here
+-------------------------------------------------
+bin\windows\kafka-topics.bat --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic test1
+bin\windows\kafka-topics.bat --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic dest1
+To check:
+bin\windows\kafka-topics.bat --zookeeper localhost:2181 --list
+
+
+-- run simulator code 
+-- run Bridge_btw_MQTTServer_Kafka  
+
+streaming analysis tier
+----------------------
+spark-submit --conf spark.jars.ivy=/C:/.ivy --packages org.apache.spark:spark-sql-kafka-0-10_2.11:2.4.8 spark_kafka.py >> demo2.txt
+spark-submit --conf spark.jars.ivy=/C:/.ivy --packages org.apache.spark:spark-sql-kafka-0-10_2.11:2.4.8 spark_kafka_q6.py >> demo1.txt
+
+
+
+spark-submit --jars spark-streaming-kafka-0-8-assembly_2.11-2.4.4.jar spark_kafka_dstreams.py >> spark_window_demo.logs
+
+
+Delivary/reporting Tier
+-----------------------
+run consumer.py
+bin\windows\kafka-console-consumer.bat --bootstrap-server localhost:9092 --topic dest1
+
